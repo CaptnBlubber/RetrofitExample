@@ -35,4 +35,8 @@ public class Kills {
         this.hardcoreMonsters = hardcoreMonsters;
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(monsters + elites + hardcoreMonsters);
+    }
 }
