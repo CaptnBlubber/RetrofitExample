@@ -1,10 +1,10 @@
 package de.s3xy.retrofitsample.app.Api;
 
+
 import de.s3xy.retrofitsample.app.Models.Profile;
 import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Path;
-import retrofit.http.Query;
 
 /**
  * +        o     o       +        o
@@ -16,6 +16,9 @@ import retrofit.http.Query;
  * Created By: {USER}
  */
 public interface BlizzardApiInterface {
-        @GET("/d3/profile/{battleTag}/")
-        Profile profile(@Path("battleTag") String battleTag);
+    @GET("/d3/profile/{battleTag}/")
+    Profile profile(@Path("battleTag") String battleTag);
+
+    @GET("/d3/profile/{battleTag}/")
+    void getUserProfile(@Path("battleTag") String battleTag, Callback<Profile> cb);
 }

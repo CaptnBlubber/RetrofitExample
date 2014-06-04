@@ -1,6 +1,5 @@
 package de.s3xy.retrofitsample.app;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -11,6 +10,9 @@ import android.widget.Toast;
 
 import de.s3xy.retrofitsample.app.Api.BlizzardClient;
 import de.s3xy.retrofitsample.app.Models.Profile;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -38,29 +40,24 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    private class DownloadBlizzardTask extends AsyncTask<String, Void, Profile> {
-        @Override
-        protected Profile doInBackground(String... battleTags) {
-            Profile p = null;
-            for (String battleTag : battleTags) {
-                p = BlizzardClient.getBlizzardApiClient().profile(battleTag);
-            }
-            return p;
-        }
-
-        @Override
-        protected void onPostExecute(Profile result) {
-            Toast.makeText(getApplicationContext(), result.getBattleTag() + " Loaded!", Toast.LENGTH_SHORT).show();
-
-            txtTotalKills.setText(result.getKills().toString());
-            txtParagonLevel.setText(String.valueOf(result.getParagonLevel()));
-
-        }
-
-    }
-
     private void download() {
-        new DownloadBlizzardTask().execute(txtBattleTag.getText().toString());
+        BlizzardClient.
+                getBlizzardApiClient().
+                getUserProfile(txtBattleTag.getText().toString(), new Callback<Profile>() {
+                    @Override
+                    public void success(Profile result, Response response) {
+                        Toast.makeText(getApplicationContext(), result.getBattleTag() + " Loaded! Status Code:" + response.getStatus(), Toast.LENGTH_SHORT).show();
+
+                        txtTotalKills.setText(result.getKills().toString());
+                        txtParagonLevel.setText(String.valueOf(result.getParagonLevel()));
+                    }
+
+                    @Override
+                    public void failure(RetrofitError retrofitError) {
+                        Toast.makeText(getApplicationContext(), retrofitError.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
     }
 
 
