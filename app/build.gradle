@@ -2,12 +2,12 @@ apply plugin: 'android'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '19.0.3'
+    buildToolsVersion '19.1.0'
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 19
-        versionCode 1
-        versionName '1.0'
+        versionCode 2
+        versionName '1.1'
     }
     buildTypes {
         release {
@@ -15,6 +15,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    lintOptions {
+        lintConfig file("custom-lint.xml")
+    }
+
     productFlavors {
     }
 }
@@ -23,8 +28,11 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:19.+'
     compile 'com.android.support:appcompat-v7:19.+'
-    compile 'com.squareup.retrofit:retrofit:1.5.1@jar'
     compile 'com.google.code.gson:gson:2.2.+'
-    compile 'com.squareup.okhttp:okhttp:1.3.+'
+    compile 'com.squareup.retrofit:retrofit:1.6.+'
+    compile 'com.squareup.okhttp:okhttp:2.0+'
 
+    //Important, OkHTTP 2.0 Depends on those....
+    compile 'com.squareup.okio:okio:1.0.+'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.+'
 }
